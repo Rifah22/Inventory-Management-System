@@ -1,2 +1,2 @@
-# Inventory-Project
-This is a codeigniter3 framework project.
+# Inventory-Management-System
+This is a Codeigniter3 framework project.
