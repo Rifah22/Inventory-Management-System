@@ -1,13 +1,14 @@
 # 📦 Inventory Management System
 
 <p align="center">
-  <img src="https://img.shields.io/badge/CodeIgniter-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/CodeIgniter_3-EF4223?style=for-the-badge&logo=codeigniter&logoColor=white"/>
   <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"/>
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
   <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"/>
+  <img src="https://img.shields.io/badge/AdminLTE-00ADB5?style=for-the-badge"/>
 </p>
 
-> A full-featured inventory and stock management web application built with CodeIgniter 3, enabling businesses to track products, manage stock levels, and generate reports.
+> A web-based Inventory Management System built with **CodeIgniter 3** (PHP MVC framework) that allows users to manage products, brands, and product categories with full CRUD operations, search/filter, and pagination.
 
 ---
 
@@ -15,30 +16,52 @@
 - [About](#about)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
 - [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
 - [Database Setup](#database-setup)
+- [Usage](#usage)
 
 ---
 
 ## 📖 About
 
-The Inventory Management System is a web-based application that helps businesses manage their product stock efficiently. Built using the **CodeIgniter 3** PHP framework and following the MVC architecture, it provides a clean admin dashboard to handle product entries, stock updates, and reporting.
+The Inventory Management System is a full-stack web application built using the **CodeIgniter 3 MVC architecture**. It provides an admin dashboard (powered by **AdminLTE**) for managing product inventory — including brands, product categories, and products — with search filters and paginated listings.
 
-This project demonstrates knowledge of MVC design patterns, RESTful routing, form validation, and database-driven web development.
+The system includes secure login with **password hashing** (`password_verify`), session management, flash messages, and form validation — demonstrating core web development skills with PHP and MySQL.
 
 ---
 
 ## ✨ Features
 
-- 🔐 Secure admin login & session management
-- 📦 Add, edit, delete product records
-- 📊 Real-time stock level tracking
-- 🔔 Low-stock alerts
-- 🏷️ Category management
-- 🧾 Purchase and sales tracking
-- 📈 Report generation (stock summary, transaction history)
-- 👤 User role management
+### 🔐 Authentication
+- User login with email and password
+- Secure password verification using PHP `password_verify()`
+- Session-based access control
+- Flash messages for login errors
+
+### 📊 Dashboard
+- Overview statistics (brands, users, visitors, bonus counts)
+- AdminLTE sidebar navigation with search
+
+### 🏷️ Brands
+- Add, edit, delete, view brands
+- Filter brands by name, code, and status
+- Paginated brand listing (5 per page)
+- Unique code validation
+
+### 📂 Product Categories
+- Add, edit, delete, view product categories
+- Filter by name, code, and status
+- Paginated listing (2 per page)
+- Unique code validation
+
+### 📦 Products
+- Add, edit, delete, view products
+- Linked to brands and product categories
+- Filter by name, code, brand, and category
+- Paginated listing (2 per page) with DataTables integration
+- Product fields: name, code, brand, category, date, description, status
 
 ---
 
@@ -47,20 +70,64 @@ This project demonstrates knowledge of MVC design patterns, RESTful routing, for
 | Layer | Technology |
 |-------|-----------|
 | Framework | CodeIgniter 3 (PHP MVC) |
-| Frontend | HTML5, CSS3, Bootstrap, JavaScript |
-| Database | MySQL |
-| Server | Apache (XAMPP/WAMP) |
+| Language | PHP 7.x |
+| Database | MySQL (`inventory` database, `mysqli` driver) |
+| Frontend | Bootstrap 4, AdminLTE, Font Awesome |
+| JS Libraries | jQuery 3.7.1, DataTables |
+| Server | Apache (XAMPP/WAMP), `.htaccess` routing |
+
+---
+
+## 📂 Project Structure
+
+```
+task/
+├── application/
+│   ├── config/
+│   │   ├── database.php        # DB connection (localhost, root, inventory)
+│   │   ├── routes.php          # URL routing
+│   │   └── autoload.php        # Auto-loaded libraries & helpers
+│   ├── controllers/
+│   │   ├── Dashboards.php      # Dashboard stats
+│   │   ├── Brands.php          # Brand CRUD + filter + pagination
+│   │   ├── Product_categories.php  # Category CRUD + filter + pagination
+│   │   ├── Products.php        # Product CRUD + filter + pagination
+│   │   ├── Logins.php          # Authentication
+│   │   ├── Forms.php           # General/information forms
+│   │   └── Detail.php          # Detail view controller
+│   ├── models/
+│   │   ├── Brand_model.php
+│   │   ├── Product_model.php
+│   │   ├── Product_category_model.php
+│   │   ├── Detail_model.php
+│   │   └── user_model.php
+│   ├── views/
+│   │   ├── layouts/
+│   │   │   ├── header.php
+│   │   │   ├── sidebar.php     # AdminLTE sidebar with nav links
+│   │   │   └── footer.php
+│   │   ├── brands/             # add, edit, index, view
+│   │   ├── product_categories/ # add, edit, index, view
+│   │   ├── products/           # add, edit, index, view, detail_view
+│   │   └── dashboard.php
+│   └── core/
+│       ├── MY_Controller.php   # Base controller with layout helper
+│       └── MY_Loader.php
+├── system/                     # CodeIgniter 3 core
+├── .htaccess                   # URL rewriting
+└── .gitignore
+```
 
 ---
 
 ## 📸 Screenshots
 
-> _Add screenshots of your dashboard, product list, and reports here_
+> _Add screenshots of your dashboard, product listing, and brand management pages here_
 
 <!--
 ![Dashboard](screenshots/dashboard.png)
-![Product List](screenshots/products.png)
-![Reports](screenshots/reports.png)
+![Products](screenshots/products.png)
+![Brands](screenshots/brands.png)
 -->
 
 ---
@@ -68,10 +135,10 @@ This project demonstrates knowledge of MVC design patterns, RESTful routing, for
 ## ⚙️ Getting Started
 
 ### Prerequisites
-- XAMPP or WAMP
+- [XAMPP](https://www.apachefriends.org/) or WAMP installed
 - PHP 7.x
 - MySQL 5.7+
-- Composer (optional)
+- Apache with `mod_rewrite` enabled
 
 ### Installation
 
@@ -80,65 +147,62 @@ This project demonstrates knowledge of MVC design patterns, RESTful routing, for
    git clone https://github.com/Rifah22/Inventory-Management-System.git
    ```
 
-2. **Move to your web server root**
+2. **Move the `task/` folder to your web server root**
    ```bash
-   # XAMPP:
-   mv Inventory-Management-System /xampp/htdocs/
+   # XAMPP on Windows:
+   mv task/ C:/xampp/htdocs/inventory/
    ```
 
-3. **Set base URL** in `application/config/config.php`:
-   ```php
-   $config['base_url'] = 'http://localhost/Inventory-Management-System/';
-   ```
+3. **Start Apache and MySQL** in XAMPP Control Panel
 
-4. **Configure database** in `application/config/database.php`:
-   ```php
-   $db['default'] = array(
-       'hostname' => 'localhost',
-       'username' => 'root',
-       'password' => '',
-       'database' => 'inventory_db',
-   );
-   ```
+4. **Import the database** (see below)
 
-5. **Import the database** (see below)
-
-6. **Run the app**
+5. **Open in browser**
    ```
-   http://localhost/Inventory-Management-System/
+   http://localhost/inventory/
    ```
 
 ---
 
 ## 🗄️ Database Setup
 
-1. Open **phpMyAdmin** → Create database `inventory_db`
-2. Import the `.sql` file from the repository
-3. Default admin credentials (update after first login):
+1. Open **phpMyAdmin** → `http://localhost/phpmyadmin`
+2. Create a new database named `inventory`
+3. Import the SQL file from the repository (if included)
+4. The database connection is already configured in `application/config/database.php`:
+   ```php
+   'hostname' => 'localhost',
+   'username' => 'root',
+   'password' => '',
+   'database' => 'inventory',
+   'dbdriver' => 'mysqli',
    ```
-   Username: admin
-   Password: admin123
-   ```
+
+### Database Tables
+
+| Table | Description |
+|-------|-------------|
+| `users` | Stores login credentials (email, hashed password) |
+| `brands` | Brand name, code, status |
+| `product_categories` | Category name, code, status |
+| `products` | Product name, code, brand_id, category_id, date, description, status |
 
 ---
 
-## 📂 Project Structure (CodeIgniter MVC)
+## 🧭 Usage
 
-```
-Inventory-Management-System/
-├── application/
-│   ├── controllers/    # Business logic
-│   ├── models/         # Database queries
-│   ├── views/          # UI templates
-│   └── config/         # App configuration
-├── assets/             # CSS, JS, images
-└── index.php
-```
+| Module | URL | Features |
+|--------|-----|---------|
+| Login | `/Forms/general` | Email + password login |
+| Dashboard | `/Dashboards/index` | Stats overview |
+| Brands | `/brands` | List, add, edit, delete, view |
+| Categories | `/product_categories` | List, add, edit, delete, view |
+| Products | `/products` | List, add, edit, delete, view with DataTables |
 
 ---
 
 ## 👩‍💻 Author
 
-**Rifah Sanzida**  
+**Rifah Sanzida**
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin)](https://www.linkedin.com/in/rifah-sanzida-b58141290/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github)](https://github.com/Rifah22)
